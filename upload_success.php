@@ -57,14 +57,9 @@
                             <a href="showfile.php" class="m-b-xs h3 block text-white">文件下载</a>
                           </div>
                         </div>
-                        <div class="col-xs-4 dk">
-                          <div class="padder-v">
-                            <a href="upload.php" class="m-b-xs h3 block text-white">文件加密上传及签名</a>
-                          </div>
-                        </div>
                         <div class="col-xs-4">
                           <div class="padder-v">
-                            <a href="showfile.php" class="m-b-xs h3 block text-white">文件散列值下载</a>
+                            <a href="upload.php" class="m-b-xs h3 block text-white">文件加密上传</a>
                           </div>
                         </div>
                       </div>
@@ -76,7 +71,9 @@
                       <div class="clearfix text-center m-t">
                         <div class="inline">
                           <div class="h4 m-t m-b-xs">
-                            <h1><strong>文件上传成功!</strong></h1>
+                          <?php
+                            echo "文件上传成功！";
+                            ?>
                           </div>
                           <small class="text-muted m-b"></small>
                         </div>                      

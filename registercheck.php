@@ -81,8 +81,7 @@ if($link)//判断是否连接数据库成功
       $sql = " INSERT INTO users(user_name,user_pswd_hash,user_salt) values('$name','$user_hash','$user_salt')";//将注册信息插入数据库表中
       $link->query($sql);
 
-      echo "注册成功！请登录！";
-      header("refresh:2,$logurl");
+      echo "<script>alert('注册成功！请登录');history.go(-1);parent.location.href='login.php';</script>";
       $link=null;//断开数据库连接
       exit;
     }

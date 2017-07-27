@@ -25,8 +25,7 @@ if($link)
 
       if($name==""||$password=="")//判断是否输入完整
       {
-        echo "请填写完整！";
-        header("refresh:2,$logurl");//两秒后跳转到$logurl
+        echo "<script>alert('请填写完整！');history.go(-1);parent.location.href='login.php';</script>";
         $link=null;//断开数据库连接
         exit;
       }
@@ -37,8 +36,7 @@ if($link)
 
       if($row==null)//密码为空，则用户不存在
       {
-        echo "此用户不存在，请先注册！";
-        header("refresh:2,$logurl");
+        echo "<script>alert('此用户不存在，请先注册！');history.go(-1);parent.location.href='login.php';</script>";
         $link=null;
         exit;
       }
@@ -50,18 +48,16 @@ if($link)
 
       if($user_hash==$user_login_hash)//判断密码与注册时密码是否一致
       {
-        echo "登录成功！";
+        echo "<script>alert('登录成功！');history.go(-1);parent.location.href='cloud.php';</script>";
         session_start();
         $_SESSION['username']=$name;
         $_SESSION['password']=$password;
-        header("refresh:2,$cloudurl");
         $link=null;//断开数据库连接
         exit;
       }
       else
       {
-        echo "密码错误，登录失败！请重新输入！";
-        header("refresh:2,$logurl");
+        echo "<script>alert('密码错误，登录失败！请重新输入！');history.go(-1);parent.location.href='login.php';</script>";
         $link=null;//断开数据库连接
         exit;
       }

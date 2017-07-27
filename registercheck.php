@@ -24,15 +24,13 @@ if($link)//判断是否连接数据库成功
 
     if($name==""||$password1==""||$password2=="")//判断是否填写完整
     {
-      echo "请填写完整！";
-      header("refresh:2,$regurl");
+      echo "<script>alert('请填写完整');history.go(-1);parent.location.href='register.php';</script>";
       $link=null;//断开数据库连接
       exit;
     }
 
     if(strlen($password1)>36||strlen($password1)<6){
-      echo "密码长度应为6-36";
-      header("refresh:2,$regurl");
+      echo "<script>alert('密码长度应为6-36');history.go(-1);parent.location.href='register.php';</script>";
       $link=null;//断开数据库连接
       exit;
     }
@@ -47,8 +45,7 @@ if($link)//判断是否连接数据库成功
         $count=(int)$row;
         if($count!=0)//判断数据库表中是否已存在该用户名
         {
-          echo "该用户名已被注册,请重新输入";
-          header("refresh:2,$regurl");
+          echo "<script>alert('该用户名已被注册,请重新输入');history.go(-1);parent.location.href='register.php';</script>";
           $link=null;//断开数据库连接
           exit;
         }
@@ -56,8 +53,7 @@ if($link)//判断是否连接数据库成功
 
       if(!preg_match("/^[\x{4e00}-\x{9fa5}a-zA-Z0-9]+$/u",$name))
       {
-        echo "用户名仅能由中文、英文字母、数字组成";
-        header("refresh:2,$regurl");
+        echo "<script>alert('用户名仅能由中文、英文字母、数字组成');history.go(-1);parent.location.href='register.php';</script>";
         $link=null;//断开数据库连接
         exit;
       }
@@ -65,8 +61,7 @@ if($link)//判断是否连接数据库成功
 
       if(preg_match("/^[a-zA-Z]+$/i", $password1)||preg_match("/^[0-9]+$/i", $password1))
       {
-        echo "请勿使用全数字或全字母的弱密码！";
-        header("refresh:2,$regurl");
+        echo "<script>alert('请勿使用全数字或全字母的弱密码！');history.go(-1);parent.location.href='register.php';</script>";
         $link=null;//断开数据库连接
         exit;
       }
@@ -87,8 +82,7 @@ if($link)//判断是否连接数据库成功
     }
     else
     {
-      echo "密码不一致，请重新输入";
-      header("refresh:2,$regurl");
+      echo "<script>alert('密码不一致，请重新输入');history.go(-1);parent.location.href='register.php';</script>";
       $link=null;//断开数据库连接
       exit;
     }

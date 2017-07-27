@@ -50,4 +50,5 @@ else
 <?php
 }
 ?>
+	</body>
 </html>

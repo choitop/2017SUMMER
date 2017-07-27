@@ -27,8 +27,19 @@ $sign_path=dirname($path)."/sign_".$user_name."_".$result."txt";
 
 $sign=file_get_contents($sign_path);
 
+$link = new PDO("mysql:host=$mysql_server_name;dbname=$mysql_database", "$mysql_username","$mysql_password");
+if(!$link)
+{
+	echo "连接数据库失败";
+	exit;
+}
+$link->query('SET NAMES UTF8');
+$str="select * from users where user_name='$user_name'";//在数据库中查找该用户
+$result=$link->query($str);
+$row = $result->fetch(PDO::FETCH_ASSOC);
+
 //验证签名
-$public_key=file_get_contents("file:////etc/apache2/ssl/apache_pub.key");
+$public_key=$row['user_pubkey'];
 $flag=signverify($path,$sign,$public_key,'sha256');
 
 if(!$flag)

@@ -1,76 +1,5 @@
 
-
-<!DOCTYPE html>
-<html lang="en" class="app">
-<head>
-  <meta charset="utf-8">
-  <title>普通用户界面</title>
-
-</head>
-
-<body class="bg-black dker2">
-  <div class="clearfix text-center m-t"></div>
-  <meta name="description" content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <link rel="stylesheet" href="js/jPlayer/jplayer.flat.css" type="text/css">
-  <link rel="stylesheet" href="css/bootstrap.css" type="text/css">
-  <link rel="stylesheet" href="css/animate.css" type="text/css">
-  <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
-  <link rel="stylesheet" href="css/simple-line-icons.css" type="text/css">
-  <link rel="stylesheet" href="css/font.css" type="text/css">
-  <link rel="stylesheet" href="css/app.css" type="text/css">
-    <!--[if lt IE 9]>
-    <script src="js/ie/html5shiv.js"></script>
-    <script src="js/ie/respond.min.js"></script>
-    <script src="js/ie/excanvas.js"></script>
-  <![endif]-->
-
-          <section class="vbox">
-            <section class="scrollable wrapper ">
-              <div class="col-lg-7"></div>
-              <a class="navbar-brand block" href="index.php"><span class="h1 font-bold">CLOUD</span></a>
-              <div class="row">
-                 <div class="col-lg-7">
-
-                </div>
-                <div class="col-lg-5">
-                   <section class="panel panel-default rounded">
-                      <div class="clearfix text-center m-t">
-                        <div class="inline">
-                          
-                          <div class="h2 m-t m-b-xs font-username">
-                            <?php 
-                              session_start();
-                              echo $_SESSION['username'];
-                            ?>
-                          </div>
-                          <big class="text-muted m-b font-username">普通用户</big>
-                        </div>                      
-                      </div>
-
-                    <footer class="panel-footer bg-info text-center">
-                      <div class="row pull-out">
-                        <div class="col-xs-4">
-                          <div class="padder-v">
-                            <a href="showfile.php" class="m-b-xs h3 block text-white">文件下载</a>
-                          </div>
-                        </div>
-                        <div class="col-xs-4">
-                          <div class="padder-v">
-                            <a href="upload.php" class="m-b-xs h3 block text-white">文件加密上传</a>
-                          </div>
-                        </div>
-                      </div>
-                    </footer>
-
-
-                  <section class="panel panel-default rounded">
-                    <div class="panel-body">
-                      <div class="clearfix text-center m-t">
-                        <div class="inline">
-                          <div class="h4 m-t m-b-xs">
-                            <?php
-echo "文件上传中";
+<?php
 require_once('functions.php');
 
 $mysql_server_name="127.0.0.1";
@@ -79,7 +8,6 @@ $mysql_password=$_SERVER['MYSQL_PSW'];
 $mysql_database="cloud";
 
 $uploadurl="https://cloud/upload.php";
-$successurl="https://cloud/upload_success.php";
 
 //判断上传有无错误
 if($_FILES["file"]["error"] > 0)
@@ -100,8 +28,7 @@ $pass2=$_POST['pass2'];
 
 if($pass1!=$pass2)
 {
-  echo "密码不一致，请重新输入";
-  header("refresh:2,$uploadurl");
+  echo "<script>alert('密码不一致，请重新输入');history.go(-1);parent.location.href='upload.php';</script>";
   exit;
 }
 
@@ -155,15 +82,13 @@ switch ($file_type)
 
 if ($typeFlag==false)
 {
-  echo "文件类型只能为：office文档、常见图片类型";
-  header("refresh:2,$uploadurl");
+  echo "<script>alert('文件类型只能为：office文档、常见图片类型');history.go(-1);parent.location.href='upload.php';</script>";
   exit;
 }
 
 if ($file_size>1024*1024*10)
 {
-  echo "文件大小：< 10MB";
-  header("refresh:2,$uploadurl");
+  echo "<script>alert('文件大小：< 10MB');history.go(-1);parent.location.href='upload.php';</script>";
   exit;
 }
 
@@ -234,7 +159,7 @@ if($link)
     $str="update files set file_encrypted_sessionkey='$encrypted_key',file_if_shared=$file_if_shared,file_hash='$file_hash',file_sign='$signature',file_size=$file_size where file_name='$file_name' and user_name='$username'";
     $link->query($str);
     $link=null;
-    header("refresh:2,$successurl");
+    echo "<script>alert('上传成功！');history.go(-1);parent.location.href='showfile.php';</script>";
     exit;
   }
   else
@@ -243,7 +168,7 @@ if($link)
     $str="insert into files values('$file_name','$username','$encrypted_key',$file_if_shared,'$file_hash','$signature',$file_size)";
     $link->query($str);
     $link=null;
-    header("refresh:2,$successurl");
+    echo "<script>alert('上传成功！');history.go(-1);parent.location.href='showfile.php';</script>";
     exit;
   }
 }
@@ -256,27 +181,3 @@ else
 
 
 ?>
-                          </div>
-                          <small class="text-muted m-b"></small>
-                        </div>
-                      </div>
-                  </section>
-            </section>
-          </section>
-
-
-
-  <!-- / footer -->
-  <script src="js/jquery.min.js"></script>
-  <!-- Bootstrap -->
-  <script src="js/bootstrap.js"></script>
-  <!-- App -->
-  <script src="js/app.js"></script>
-  <script src="js/slimscroll/jquery.slimscroll.min.js"></script>
-    <script src="js/app.plugin.js"></script>
-  <script type="text/javascript" src="js/jPlayer/jquery.jplayer.min.js"></script>
-  <script type="text/javascript" src="js/jPlayer/add-on/jplayer.playlist.min.js"></script>
-  <script type="text/javascript" src="js/jPlayer/demo.js"></script>
-<div style="display:none"><script src="http://v7.cnzz.com/stat.php?id=155540&amp;web_id=155540" language="JavaScript" charset="gb2312"></script><script src="http://c.cnzz.com/core.php?web_id=155540&amp;t=z" charset="utf-8" type="text/javascript"></script><a href="http://www.cnzz.com/stat/website.php?web_id=155540" target="_blank" title="站长统计">站长统计</a><script src="http://c.cnzz.com/core.php?web_id=155540&amp;t=z" charset="utf-8" type="text/javascript"></script><a href="http://www.cnzz.com/stat/website.php?web_id=155540" target="_blank" title="站长统计">站长统计</a><a href="http://www.cnzz.com/stat/website.php?web_id=155540" target="_blank" title="站长统计">站长统计</a></div>
-
-</body></html>

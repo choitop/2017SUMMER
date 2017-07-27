@@ -31,9 +31,23 @@ $row=$result->fetch(PDO::FETCH_ASSOC);
 $flag=$row['file_if_shared'];
 ?>
 <body>
+<?php
+if($flag==1){
+?>
 <form action="download_file.php" method="post" enctype="multipart/form-data">
-	<input type="password" name="pass" placeholder="请输入加密密码">
-	<input type="submit" name="submit" value="download">
+	<input type="password" name="pass" placeholder="请输入共享密码">
+	<input type="submit" name="submit" value="下载">
 </form>
-</body>
+<?php
+}
+else
+{
+?>
+<form action="download_file.php" method="post" enctype="multipart/form-data">
+	<input type="password" name="pass" placeholder="请输入登录密码">
+	<input type="submit" name="submit" value="下载">
+</form>
+<?php
+}
+?>
 </html>

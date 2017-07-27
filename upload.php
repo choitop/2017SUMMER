@@ -27,7 +27,7 @@
           <section class="vbox">
             <section class="scrollable wrapper ">
               <div class="col-lg-7"></div>
-              <a class="navbar-brand block" href="index.php"><span class="h1 font-bold">CLOUD</span></a>           
+              <a class="navbar-brand block" href="logout.php"><span class="h1 font-bold">LOGOUT</span></a>           
               <div class="row">
                  <div class="col-lg-7">
                   
@@ -66,6 +66,13 @@
                       <div class="clearfix text-center m-t">
                         <div class="inline">
                           <div class="h4 m-t m-b-xs">
+                          <?php
+                           session_start();
+                          if ($_SESSION['username']==NULL) {
+                            echo "登录超时，请重新登录！";
+                          }
+                          else{
+                          ?>
                           	<form action="upload_file.php" method="post" enctype="multipart/form-data">
 							              <label for="file">文件名</label>
               							<input type="file" name="file" id="file" /> 
@@ -76,6 +83,9 @@
               							<input type="submit" name="submit" class="btn btn-info rounded" value="上传">
                             <input type="reset" name="reset" class="btn btn-info rounded" value="重置" /> 
               							</form>
+                            <?php
+                          }
+                            ?>
                           </div>
                           <small class="text-muted m-b"></small>
                         </div>                      

@@ -1,5 +1,6 @@
 <?php
 header("Content-type:text/html;charset=utf-8");
+require_once('functions.php');
 
 $mysql_server_name="127.0.0.1";
 $mysql_username="root";
@@ -66,14 +67,32 @@ if($link)//判断是否连接数据库成功
         exit;
       }
 
-
+      //获得用户密码的哈希值
       define("PBKDF2_SALT_BYTE_SIZE", 24);
       $iterations = 1000;
       $user_salt = base64_encode(mcrypt_create_iv(PBKDF2_SALT_BYTE_SIZE, MCRYPT_DEV_URANDOM));
       $user_hash = hash_pbkdf2("sha256", $password1, $user_salt, $iterations, 20);
 
 
-      $sql = " INSERT INTO users(user_name,user_pswd_hash,user_salt) values('$name','$user_hash','$user_salt')";//将注册信息插入数据库表中
+      //为用户生成一对公私钥
+      $config = array(
+            'private_key_bits' => 2048,
+            'private_key_type' => OPENSSL_KEYTYPE_RSA,
+            'digest_alg' => 'sha256',
+        );
+      $res = openssl_pkey_new($config);
+      openssl_pkey_export($res, $prikey);
+      $pubkey = openssl_pkey_get_details($res);
+      $pubkey = $pubkey["key"];
+
+      //用用户密码加密用户私钥
+      $enc_options = 0;
+      $method = "aes-256-cbc";
+      $encrypted_prikey=encrypt($prikey,$method,$password1,$enc_options);
+
+
+
+      $sql = " INSERT INTO users values('$name','$user_hash','$user_salt','$pubkey','$encrypted_prikey')";//将注册信息插入数据库表中
       $link->query($sql);
 
       echo "<script>alert('注册成功！请登录');history.go(-1);parent.location.href='login.php';</script>";

@@ -47,7 +47,7 @@ if($link)
   $flag=signverify($file_path,$sign,$public_key,'sha256');
   if(!$flag)
   {
-    echo "验证服务器签名失败，停止下载";
+    echo "验证签名失败，停止下载";
     exit;
   }
   echo "验证签名成功";

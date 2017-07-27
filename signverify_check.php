@@ -44,7 +44,7 @@ $flag=signverify($path,$sign,$public_key,'sha256');
 
 if(!$flag)
 {
-  echo "验证服务器签名失败，停止下载";
+  echo "验证签名失败，停止下载";
   exit;
 }
 echo "验证签名成功,2秒后跳转到解密文件界面...";

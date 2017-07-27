@@ -29,7 +29,7 @@
           <section class="vbox">
             <section class="scrollable wrapper ">
               <div class="col-lg-7"></div>
-              <a class="navbar-brand block" href="index.php"><span class="h1 font-bold">CLOUD</span></a>           
+              <a class="navbar-brand block" href="logout.php"><span class="h1 font-bold">LOGOUT</span></a>           
               <div class="row">
                  <div class="col-lg-7">
                   

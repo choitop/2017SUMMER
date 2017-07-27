@@ -33,11 +33,17 @@ if($link)
   $sign=$row['file_sign'];
   $file_size=$row['file_size'];
 
+  $link->query('SET NAMES UTF8');
+  $str="select * from users where user_name='$user_name'";//在数据库中查找该用户
+  $result=$link->query($str);
+  $row = $result->fetch(PDO::FETCH_ASSOC);
+
+  $public_key=$row['user_pubkey'];
+
   $file_path=$file_path.$user_name."_".$file_name;
   $file_contents=file_get_contents($file_path);
 
   //验证签名
-  $public_key=file_get_contents("file:////etc/apache2/ssl/apache_pub.key");
   $flag=signverify($file_path,$sign,$public_key,'sha256');
   if(!$flag)
   {

@@ -3,6 +3,21 @@
 <head>  
 <meta charset="utf-8">
 <title>文件加密上传</title>
+<?php
+  session_start();
+  ?>
+  <style>
+.input_style_disable{
+  visibility: hidden;
+}
+.input_style_able{
+  visibility: visible;
+}
+</style>
+
+   <script type="text/javascript" src="https://img3.doubanio.com/f/accounts/235752090cae6e105c6bb570481adfb4fcdc7b4e/js/lib/cookie.js"></script>
+  <script type="text/javascript" src="https://img3.doubanio.com/f/accounts/c5268df4c1f0bada95cb3d2b80089a50b494b5ee/js/lib/jquery.min.js"></script>
+ 
 </head>
 
 
@@ -77,8 +92,8 @@
 							              <label for="file">文件名</label>
               							<input type="file" name="file" id="file" /> 
                                         <label><input type="checkbox" name="check">设为共享文件</label>
-                                        <div><input type="password" name="pass1" placeholder="请输入加密密码"/></div>   
-                                        <div><input type="password" name="pass2" placeholder="再次输入密码"/></div>    
+                                        <div><input type="token" name="token" placeholder="请输入共享密码" class="input_style_disable" /></div>
+                                        <div><input type="password" name="pass" placeholder="请输入登录密码"/></div>   
               							<br />
               							<input type="submit" name="submit" class="btn btn-info rounded" value="上传">
                             <input type="reset" name="reset" class="btn btn-info rounded" value="重置" /> 
@@ -95,5 +110,14 @@
               </div>
             </section>
           </section>
+<script>
+$("input[name='check']").click(function(){
+        if ($("input[name='check']").is(':checked')) {
+            $("input[name='token']").attr('input_style_disable', false).addClass('input_style_able');
+        } else {
+            $("input[name='token']").attr('input_style_disable', true).removeClass('input_style_able');
+        }
 
+    });
+</script>
 </body></html>

@@ -1,3 +1,4 @@
+
 <?php
 require_once('functions.php');
 
@@ -11,10 +12,11 @@ $uploadurl="https://cloud/upload.php";
 //判断上传有无错误
 if($_FILES["file"]["error"] > 0)
 {
-  echo "错误：" . $_FILES["file"]["error"] . "<br>";
-  header("refresh:2,$uploadurl");
+  echo "<script>alert('文件上传错误');history.go(-1);parent.location.href='upload.php';</script>";
   exit;
 }
+
+
 session_start();
 $username=$_SESSION['username'];
 
@@ -26,6 +28,14 @@ $file_size=$_FILES["file"]["size"];
 $file_if_shared=$_REQUEST['check'];
 $pass=$_POST['pass'];
 $token=$_POST['token'];
+
+//是否输入分享密码
+if($file_if_shared&&$token==null)
+{
+  echo "<script>alert('请输入分享密码');history.go(-1);parent.location.href='upload.php';</script>";
+  exit;
+}
+
 
 $link=new PDO("mysql:host=$mysql_server_name;dbname=$mysql_database", "$mysql_username", "$mysql_password");
 if($link)
@@ -40,8 +50,10 @@ if($link)
   $iterations=1000;
   $input_pass_hash = hash_pbkdf2("sha256", $pass, $user_salt, $iterations, 20);
 
+  //检测登录口令是否正确
   if($input_pass_hash!=$user_hash)
   {
+
     echo "<script>alert('登录密码不一致，请重新输入');history.go(-1);parent.location.href='upload.php';</script>";
     $link=null;//断开数据库连接
     exit;
@@ -131,8 +143,9 @@ if($link)
 
   //对加密后的文件进行哈希并签名
   $private_key=decrypt($encrypted_privatekey,$pass);
-  $signature=sign($file_tmp_name,$private_key,'sha256');
+  $signature=sign($file_tmp_name,$private_key,'sha256');  
 
+  
   if ($file_if_shared)
   {
     //文件被设为共享文件
@@ -188,8 +201,7 @@ if($link)
   
 else
 {
-  echo "数据库连接失败";
-  header("refresh:2,$uploadurl");
+  echo "<script>alert('数据库连接失败');history.go(-1);parent.location.href='upload.php';</script>";
   exit;
 }
 
